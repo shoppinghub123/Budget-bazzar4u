@@ -8,53 +8,27 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7f7f7;
+      background-color: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-    }
-
-    header {
-      background-color: #2874f0;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
+      padding-top: 60px;
     }
 
     .form-container {
-      background-color: white;
+      background-color: #ffffff;
       width: 100%;
-      max-width: 450px;
+      max-width: 430px;
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-      margin-top: 80px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     .form-container h2 {
       text-align: center;
       color: #2874f0;
-      font-size: 26px;
+      font-size: 24px;
       margin-bottom: 20px;
     }
 
@@ -64,85 +38,49 @@
     }
 
     .form-container input {
-      padding: 10px;
+      padding: 12px;
       margin: 10px 0;
       border-radius: 6px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .form-container input:focus {
-      border-color: #2874f0;
-      outline: none;
+      border: 1px solid #ccc;
+      font-size: 15px;
     }
 
     .form-container button {
-      padding: 10px;
+      padding: 12px;
       background-color: #2874f0;
       color: white;
       border: none;
       border-radius: 6px;
-      font-size: 18px;
+      font-size: 17px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      margin-top: 10px;
     }
 
     .form-container button:hover {
       background-color: #1456c2;
     }
 
-    .form-container .footer-text {
-      text-align: center;
-      font-size: 14px;
+    .signin-redirect {
       margin-top: 20px;
-    }
-
-    footer {
-      background-color: #222;
-      color: white;
       text-align: center;
-      padding: 20px;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-    }
-
-    footer a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .sign-in-link {
-      text-align: center;
-      margin-top: 15px;
       font-size: 16px;
     }
 
-    .sign-in-link a {
+    .signin-redirect a {
       color: #2874f0;
-      text-decoration: none;
       font-weight: bold;
+      text-decoration: none;
     }
 
-    .sign-in-link a:hover {
+    .signin-redirect a:hover {
       text-decoration: underline;
     }
-
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Budget Bazaar</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="signin.html">Sign In</a>
-    </nav>
-  </header>
-
   <div class="form-container">
-    <h2>Create Your Account</h2>
+    <h2>Create Account</h2>
     <form id="signUpForm">
       <input type="text" id="name" placeholder="Full Name" required>
       <input type="text" id="mobile" placeholder="Mobile Number" required>
@@ -153,20 +91,16 @@
       <button type="submit">Sign Up</button>
     </form>
 
-    <div class="sign-in-link">
-      <p>Already have an account? <a href="signin.html">Sign In</a></p>
+    <div class="signin-redirect">
+      Already have an account?
+      <a href="signin.html">Sign In</a>
     </div>
   </div>
-
-  <footer>
-    &copy; 2025 Budget Bazaar. All rights reserved.
-  </footer>
 
   <script>
     document.getElementById('signUpForm').addEventListener('submit', function(event) {
       event.preventDefault();
 
-      // Get user input
       const name = document.getElementById('name').value;
       const mobile = document.getElementById('mobile').value;
       const address = document.getElementById('address').value;
@@ -174,30 +108,17 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      // Check if any field is empty
       if (!name || !mobile || !address || !pin || !email || !password) {
-        alert("Please fill in all the details.");
+        alert("Please fill in all the fields.");
         return;
       }
 
-      // Store user data in local storage
-      const userDetails = {
-        name,
-        mobile,
-        address,
-        pin,
-        email,
-        password,
-      };
-
+      const userDetails = { name, mobile, address, pin, email, password };
       localStorage.setItem('userDetails', JSON.stringify(userDetails));
 
-      // You can also send a copy of the data to email via an API (EmailJS or your custom backend) for now it will be just stored.
-
-      alert("Account created successfully!");
-      window.location.href = "signin.html"; // Redirect to Sign In page after successful signup
+      alert("Sign up successful!");
+      window.location.href = "signin.html";
     });
   </script>
-
 </body>
 </html>
