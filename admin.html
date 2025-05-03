@@ -1,179 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Admin Panel - Budget Bazaar</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #eef;
+      background: #f0f2f5;
       margin: 0;
       padding: 0;
     }
 
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    header {
+      background: #2874f0;
+      color: white;
       padding: 20px;
+      text-align: center;
     }
 
-    .card {
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
       background: white;
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 450px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
+      margin-bottom: 20px;
       color: #2874f0;
     }
 
     label {
       display: block;
-      margin-top: 15px;
+      margin: 12px 0 5px;
       font-weight: bold;
     }
 
-    input, select, textarea {
+    input, select {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
 
     button {
+      margin-top: 20px;
       width: 100%;
-      padding: 12px;
-      background-color: #2874f0;
+      background: #2874f0;
       color: white;
+      padding: 12px;
       border: none;
       border-radius: 6px;
-      margin-top: 20px;
       font-size: 16px;
       cursor: pointer;
     }
 
-    .error, .success {
-      text-align: center;
-      margin-top: 10px;
-      font-weight: bold;
+    button:hover {
+      background: #1456c2;
     }
 
-    .error { color: red; }
-    .success { color: green; }
+    .preview {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .preview img {
+      max-width: 150px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
+<header>
+  <h1>Admin Panel - Budget Bazaar</h1>
+</header>
+
 <div class="container">
-  <div class="card">
+  <h2>Upload New Product</h2>
+  <form id="productForm">
+    <label>Product Name</label>
+    <input type="text" id="name" required>
 
-    <!-- Login Form -->
-    <div id="loginForm">
-      <h2>Admin Login</h2>
-      <label>Username</label>
-      <input type="text" id="username" placeholder="Enter username" required>
-      
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Enter password" required>
-      
-      <button onclick="login()">Login</button>
-      <div class="error" id="loginError"></div>
-    </div>
+    <label>Price</label>
+    <input type="number" id="price" required>
 
-    <!-- Product Upload Form -->
-    <div id="adminPanel" style="display: none;">
-      <h2>Upload Product</h2>
-      
-      <label>Product Name</label>
-      <input type="text" id="productName" required>
+    <label>Category</label>
+    <select id="category">
+      <option value="Electronics">Electronics</option>
+      <option value="Chrocet">Chrocet</option>
+      <option value="Customized Products">Customized Products</option>
+    </select>
 
-      <label>Price (₹)</label>
-      <input type="number" id="productPrice" required>
+    <label>Product Image</label>
+    <input type="file" id="image" accept="image/*" required>
+    <div class="preview" id="preview"></div>
 
-      <label>Category</label>
-      <select id="productCategory" required>
-        <option value="">Select</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Chrocet">Chrocet</option>
-        <option value="Customized Products">Customized Products</option>
-      </select>
-
-      <label>Description</label>
-      <textarea id="productDesc" rows="3" required></textarea>
-
-      <label>Image URL</label>
-      <input type="url" id="productImage" required>
-
-      <button onclick="uploadProduct()">Upload Product</button>
-      <button onclick="logout()" style="background: red;">Logout</button>
-      <div class="success" id="uploadSuccess"></div>
-    </div>
-
-  </div>
+    <button type="submit">Add Product</button>
+  </form>
 </div>
 
 <script>
-  const correctUsername = "admin";
-  const correctPassword = "1234";
+  const form = document.getElementById('productForm');
+  const imageInput = document.getElementById('image');
+  const preview = document.getElementById('preview');
+  let base64Image = "";
 
-  function login() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const errorBox = document.getElementById("loginError");
-
-    if (username === correctUsername && password === correctPassword) {
-      localStorage.setItem("isAdmin", "true");
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("adminPanel").style.display = "block";
-    } else {
-      errorBox.textContent = "Invalid username or password";
+  imageInput.addEventListener('change', function () {
+    const file = imageInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function () {
+      base64Image = reader.result;
+      preview.innerHTML = `<img src="${base64Image}" alt="Preview">`;
+    };
+    if (file) {
+      reader.readAsDataURL(file);
     }
-  }
+  });
 
-  function uploadProduct() {
-    const name = document.getElementById("productName").value;
-    const price = document.getElementById("productPrice").value;
-    const category = document.getElementById("productCategory").value;
-    const desc = document.getElementById("productDesc").value;
-    const image = document.getElementById("productImage").value;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const price = document.getElementById('price').value;
+    const category = document.getElementById('category').value;
 
     const product = {
-      id: "product-" + Date.now(),
-      name, price, category, desc, image
+      name,
+      price,
+      category,
+      image: base64Image,
     };
 
-    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const products = JSON.parse(localStorage.getItem('products') || '[]');
     products.push(product);
-    localStorage.setItem("products", JSON.stringify(products));
-
-    document.getElementById("uploadSuccess").textContent = "Product uploaded successfully!";
-    document.getElementById("productName").value = "";
-    document.getElementById("productPrice").value = "";
-    document.getElementById("productCategory").value = "";
-    document.getElementById("productDesc").value = "";
-    document.getElementById("productImage").value = "";
-  }
-
-  function logout() {
-    localStorage.removeItem("isAdmin");
-    location.reload();
-  }
-
-  // If already logged in, show admin panel directly
-  window.onload = () => {
-    if (localStorage.getItem("isAdmin") === "true") {
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("adminPanel").style.display = "block";
-    }
-  };
+    localStorage.setItem('products', JSON.stringify(products));
+    alert("Product added successfully!");
+    form.reset();
+    preview.innerHTML = "";
+    base64Image = "";
+  });
 </script>
 
 </body>
