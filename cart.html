@@ -2,18 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Budget Bazaar - Home</title>
+  <title>Cart - Budget Bazaar</title>
   <style>
-    /* Add your existing styling here */
-    .cart-button {
-      background-color: #2874f0;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #2874f0;
       color: white;
-      padding: 10px 20px;
-      text-decoration: none;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .cart-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: auto;
       border-radius: 6px;
     }
 
-    .cart-button:hover {
+    .cart-item .item-info {
+      width: 70%;
+      margin-left: 20px;
+    }
+
+    .cart-item .item-info h3 {
+      margin: 0;
+    }
+
+    .cart-item .remove {
+      cursor: pointer;
+      color: #f00;
+    }
+
+    .checkout-button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #2874f0;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+
+    .checkout-button:hover {
       background-color: #1456c2;
     }
   </style>
@@ -21,21 +72,42 @@
 <body>
 
 <header>
-  <h1>Welcome to Budget Bazaar</h1>
+  <h1>Your Cart - Budget Bazaar</h1>
 </header>
 
-<div class="container">
-  <h2>Products</h2>
-  <!-- Example product list with links to product details pages -->
-  <div class="product-list">
-    <a href="product-details.html?id=1">Product 1</a>
-    <a href="product-details.html?id=2">Product 2</a>
-    <a href="product-details.html?id=3">Product 3</a>
-  </div>
-  
-  <!-- Cart Button -->
-  <a href="cart.html" class="cart-button">Go to Cart</a>
+<div class="cart-container" id="cartContainer">
+  <!-- Cart items will be dynamically added here -->
 </div>
+
+<script>
+  // Load products from localStorage
+  const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  const cartContainer = document.getElementById('cartContainer');
+
+  if (cartItems.length > 0) {
+    cartContainer.innerHTML = cartItems.map(item => `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}">
+        <div class="item-info">
+          <h3>${item.name}</h3>
+          <p>₹${item.price}</p>
+        </div>
+        <div class="remove" onclick="removeFromCart(${item.id})">Remove</div>
+      </div>
+    `).join('');
+  } else {
+    cartContainer.innerHTML = "<p>Your cart is empty!</p>";
+  }
+
+  function removeFromCart(productId) {
+    const updatedCart = cartItems.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    window.location.reload();
+  }
+</script>
+
+<a href="checkout.html" class="checkout-button">Proceed to Checkout</a>
 
 </body>
 </html>
