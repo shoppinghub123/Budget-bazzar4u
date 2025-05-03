@@ -251,3 +251,52 @@
 
 </body>
 </html>
+<!-- Admin Panel: Add Video/Audio Upload -->
+<div class="container" id="mediaForm" style="display:none;">
+  <h2>Upload Media (Video/Audio)</h2>
+  <form id="mediaUploadForm">
+    <label>Select Media Type</label>
+    <select id="mediaType">
+      <option value="video">Video</option>
+      <option value="audio">Audio</option>
+    </select>
+
+    <label>Media File</label>
+    <input type="file" id="mediaFile" accept="video/*,audio/*" required>
+    
+    <button type="submit">Upload Media</button>
+  </form>
+</div>
+
+<script>
+  const mediaUploadForm = document.getElementById('mediaUploadForm');
+  const mediaFileInput = document.getElementById('mediaFile');
+  const mediaTypeSelect = document.getElementById('mediaType');
+  
+  // Show the media upload form if the admin is logged in
+  if (document.getElementById("loginSection").style.display === "none") {
+    document.getElementById("mediaForm").style.display = "block";
+  }
+
+  // Handle the media file upload
+  mediaUploadForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const file = mediaFileInput.files[0];
+    const mediaType = mediaTypeSelect.value;
+
+    if (file) {
+      const mediaData = {
+        fileName: file.name,
+        mediaType,
+        fileURL: URL.createObjectURL(file),
+      };
+
+      const mediaArray = JSON.parse(localStorage.getItem('media') || '[]');
+      mediaArray.push(mediaData);
+      localStorage.setItem('media', JSON.stringify(mediaArray));
+
+      alert("Media uploaded successfully!");
+      mediaUploadForm.reset();
+    }
+  });
+</script>
