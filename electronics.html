@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Electronics - Budget Bazaar</title>
   <style>
+    /* Styles are the same as before, with minor changes for displaying media */
     body {
       font-family: Arial, sans-serif;
       background: #f0f2f5;
@@ -47,9 +48,9 @@
     }
 
     .product-card img {
-      width: 200px; /* Standard width */
-      height: 200px; /* Standard height */
-      object-fit: cover; /* Ensures image covers the container while maintaining aspect ratio */
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
       border-radius: 10px;
     }
 
@@ -75,6 +76,17 @@
     .product-card a:hover {
       background: #1456c2;
     }
+
+    .media-section {
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .media-section video, .media-section audio {
+      max-width: 800px;
+      width: 100%;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -85,6 +97,13 @@
 
 <div class="container">
   <h2>Our Electronics Products</h2>
+  
+  <!-- Media Section (Video/Audio) -->
+  <div class="media-section" id="mediaSection">
+    <h3>Latest Media Ads</h3>
+    <!-- Media content will be added here -->
+  </div>
+
   <div class="product-list" id="productList">
     <!-- Products will be dynamically added here -->
   </div>
@@ -93,7 +112,6 @@
 <script>
   // Load products from localStorage
   const products = JSON.parse(localStorage.getItem('products') || '[]');
-
   const productList = document.getElementById('productList');
 
   // Filter electronics products and display them
@@ -111,6 +129,35 @@
     `;
 
     productList.appendChild(productCard);
+  });
+
+  // Load media from localStorage
+  const mediaSection = document.getElementById('mediaSection');
+  const mediaArray = JSON.parse(localStorage.getItem('media') || '[]');
+
+  mediaArray.forEach(media => {
+    const mediaElement = document.createElement('div');
+    mediaElement.classList.add('ad');
+    
+    if (media.mediaType === 'video') {
+      mediaElement.innerHTML = `
+        <h4>Video Ad: ${media.fileName}</h4>
+        <video controls>
+          <source src="${media.fileURL}" type="${media.fileType}">
+          Your browser does not support the video tag.
+        </video>
+      `;
+    } else if (media.mediaType === 'audio') {
+      mediaElement.innerHTML = `
+        <h4>Audio Ad: ${media.fileName}</h4>
+        <audio controls>
+          <source src="${media.fileURL}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      `;
+    }
+
+    mediaSection.appendChild(mediaElement);
   });
 </script>
 
