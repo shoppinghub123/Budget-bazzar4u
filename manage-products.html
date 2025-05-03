@@ -68,7 +68,20 @@
     }
   </style>
 </head>
-<body>
+<body onload="checkPassword()">
+
+  <script>
+    function checkPassword() {
+      const storedPassword = "admin123"; // Change this to your desired admin password
+      const userPassword = prompt("Enter Admin Password:");
+
+      if (userPassword !== storedPassword) {
+        alert("Incorrect password. Access denied.");
+        window.location.href = "index.html"; // Redirect to home page
+      }
+    }
+  </script>
+
   <header>
     <h1>Manage Products - Budget Bazaar</h1>
   </header>
@@ -100,7 +113,7 @@
         const row = document.createElement('tr');
 
         row.innerHTML = `
-          <td><img src="${product.image}" /></td>
+          <td><img src="${product.image}" alt="Product Image" /></td>
           <td contenteditable onblur="updateProduct(${index}, 'name', this.innerText)">${product.name}</td>
           <td contenteditable onblur="updateProduct(${index}, 'price', this.innerText)">${product.price}</td>
           <td contenteditable onblur="updateProduct(${index}, 'category', this.innerText)">${product.category}</td>
