@@ -71,6 +71,10 @@
       max-width: 150px;
       margin-top: 10px;
     }
+
+    #productForm {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -79,9 +83,16 @@
   <h1>Admin Panel - Budget Bazaar</h1>
 </header>
 
-<div class="container">
+<div class="container" id="loginSection">
+  <h2>Admin Login</h2>
+  <label>Enter Admin Password</label>
+  <input type="password" id="adminPassword" placeholder="••••••">
+  <button onclick="checkAdmin()">Login</button>
+</div>
+
+<div class="container" id="productForm">
   <h2>Upload New Product</h2>
-  <form id="productForm">
+  <form id="uploadForm">
     <label>Product Name</label>
     <input type="text" id="name" required>
 
@@ -104,7 +115,19 @@
 </div>
 
 <script>
-  const form = document.getElementById('productForm');
+  const adminPassword = "123@alokmistri"; // Your secure password
+
+  function checkAdmin() {
+    const entered = document.getElementById("adminPassword").value;
+    if (entered === adminPassword) {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("productForm").style.display = "block";
+    } else {
+      alert("Incorrect password!");
+    }
+  }
+
+  const form = document.getElementById('uploadForm');
   const imageInput = document.getElementById('image');
   const preview = document.getElementById('preview');
   let base64Image = "";
