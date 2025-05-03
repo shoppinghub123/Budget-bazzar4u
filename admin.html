@@ -67,14 +67,13 @@
       text-align: center;
     }
 
-    .preview img,
-    .preview video {
+    .preview img {
       max-width: 200px;
       margin-top: 10px;
       border-radius: 6px;
     }
 
-    #productForm, #adsForm {
+    #productForm {
       display: none;
     }
   </style>
@@ -119,21 +118,6 @@
   </form>
 </div>
 
-<div class="container" id="adsForm">
-  <h2>Upload Ads (Admin Only)</h2>
-  <form id="mediaUploadForm">
-    <label>Upload Image Ad</label>
-    <input type="file" id="imageAd" accept="image/*">
-    <div class="preview" id="imageAdPreview"></div>
-
-    <label>Upload Video Ad</label>
-    <input type="file" id="videoAd" accept="video/*">
-    <div class="preview" id="videoAdPreview"></div>
-
-    <button type="submit">Upload Ads</button>
-  </form>
-</div>
-
 <script>
   const adminPassword = "123@alokmistri";
 
@@ -142,13 +126,11 @@
     if (entered === adminPassword) {
       document.getElementById("loginSection").style.display = "none";
       document.getElementById("productForm").style.display = "block";
-      document.getElementById("adsForm").style.display = "block";
     } else {
       alert("Incorrect password!");
     }
   }
 
-  // Product Upload
   const form = document.getElementById('uploadForm');
   const imageInput = document.getElementById('image');
   const preview = document.getElementById('preview');
@@ -189,47 +171,6 @@
     form.reset();
     preview.innerHTML = "";
     base64Image = "";
-  });
-
-  // Ads Upload
-  const mediaUploadForm = document.getElementById('mediaUploadForm');
-  const imageAdInput = document.getElementById('imageAd');
-  const videoAdInput = document.getElementById('videoAd');
-  const imageAdPreview = document.getElementById('imageAdPreview');
-  const videoAdPreview = document.getElementById('videoAdPreview');
-  let imageAdData = "";
-  let videoAdData = "";
-
-  imageAdInput.addEventListener('change', function () {
-    const file = imageAdInput.files[0];
-    const reader = new FileReader();
-    reader.onload = function () {
-      imageAdData = reader.result;
-      imageAdPreview.innerHTML = `<img src="${imageAdData}" alt="Image Ad">`;
-    };
-    if (file) reader.readAsDataURL(file);
-  });
-
-  videoAdInput.addEventListener('change', function () {
-    const file = videoAdInput.files[0];
-    const reader = new FileReader();
-    reader.onload = function () {
-      videoAdData = reader.result;
-      videoAdPreview.innerHTML = `<video src="${videoAdData}" controls></video>`;
-    };
-    if (file) reader.readAsDataURL(file);
-  });
-
-  mediaUploadForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const ads = { image: imageAdData, video: videoAdData };
-    localStorage.setItem('ads', JSON.stringify(ads));
-    alert("Ads uploaded successfully!");
-    mediaUploadForm.reset();
-    imageAdPreview.innerHTML = "";
-    videoAdPreview.innerHTML = "";
-    imageAdData = "";
-    videoAdData = "";
   });
 </script>
 
