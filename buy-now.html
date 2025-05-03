@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - Budget Bazaar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #2874f0;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #2874f0;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      background: #2874f0;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1456c2;
+    }
+
+    .product-summary {
+      margin-bottom: 20px;
+      background: #f9f9f9;
+      padding: 15px;
+      border-left: 4px solid #2874f0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Checkout - Budget Bazaar</h1>
+</header>
+
+<div class="container">
+  <div class="product-summary" id="productSummary">
+    <!-- Product summary will appear here -->
+  </div>
+
+  <form id="checkoutForm">
+    <h2>Customer Details</h2>
+
+    <label for="name">Name</label>
+    <input type="text" id="name" required>
+
+    <label for="address">Address</label>
+    <textarea id="address" rows="3" required></textarea>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone number">
+
+    <button type="submit">Place Order via WhatsApp</button>
+  </form>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+  const products = JSON.parse(localStorage.getItem('products') || '[]');
+  const product = products.find(p => p.id === parseInt(productId));
+  const productSummary = document.getElementById('productSummary');
+
+  if (!product) {
+    productSummary.innerHTML = '<h2>Product not found!</h2>';
+    document.getElementById('checkoutForm').style.display = 'none';
+  } else {
+    productSummary.innerHTML = `
+      <h2>Product Summary</h2>
+      <p><strong>Name:</strong> ${product.name}</p>
+      <p><strong>Category:</strong> ${product.category}</p>
+      <p><strong>Price:</strong> ₹${product.price}</p>
+    `;
+
+    const form = document.getElementById('checkoutForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      const message = `Hello, I want to place an order on Budget Bazaar:%0A%0A` +
+                      `Product: ${product.name}%0ACategory: ${product.category}%0A` +
+                      `Price: ₹${product.price}%0A%0A` +
+                      `Customer Name: ${name}%0AAddress: ${address}%0APhone: ${phone}`;
+
+      // WhatsApp Click-to-Chat URL (Use +91 prefix)
+      const whatsappURL = `https://wa.me/917439034248?text=${message}`;
+
+      // Open WhatsApp in new tab
+      window.open(whatsappURL, '_blank');
+    });
+  }
+</script>
+
+</body>
+</html>
