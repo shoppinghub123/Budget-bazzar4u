@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign In - Budget Bazaar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      color: #2874f0;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #2874f0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1456c2;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: #2874f0;
+      font-size: 14px;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign In</h2>
+    <form id="signInForm">
+      <label for="identifier">Email or Mobile</label>
+      <input type="text" id="identifier" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Sign In</button>
+      <p class="error" id="errorMsg"></p>
+    </form>
+
+    <div class="links">
+      <p><a href="forget-password.html">Forgot Password?</a></p>
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("signInForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const identifier = document.getElementById("identifier").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+
+      const userData = JSON.parse(localStorage.getItem("userDetails"));
+
+      if (!userData) {
+        errorMsg.textContent = "No account found. Please sign up.";
+        return;
+      }
+
+      if (
+        (identifier === userData.email || identifier === userData.mobile) &&
+        password === userData.password
+      ) {
+        localStorage.setItem("isLoggedIn", "true");
+        alert("Signed in successfully!");
+        window.location.href = "index.html"; // Redirect to homepage
+      } else {
+        errorMsg.textContent = "Incorrect email/mobile or password.";
+      }
+    });
+  </script>
+</body>
+</html>
