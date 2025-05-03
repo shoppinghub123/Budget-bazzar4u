@@ -125,24 +125,19 @@
       padding: 20px;
     }
 
-    /* 🔥 Ad Section Styling */
-    .ad-banner {
-      background: linear-gradient(90deg, #ffe259, #ffa751);
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      margin-bottom: 30px;
-    }
-
-    .ad-banner h2 {
-      margin: 0;
-      color: #222;
-    }
-
-    .ad-banner p {
-      margin: 10px 0 0;
+    .contact-buttons a.email {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
       font-weight: bold;
+      background-color: #ea4335;
+      color: white;
+    }
+
+    .contact-buttons a.email:hover {
+      background-color: #c1351d;
     }
   </style>
 </head>
@@ -152,9 +147,9 @@
     <h1>Budget Bazaar</h1>
     <nav>
       <a href="index.html">Home</a>
+      <a href="mailto:bazaarbudget4u@gmail.com">Contact With Us</a>
       <a href="products.html">Products</a>
       <a href="cart.html">Cart</a>
-      <a href="Contact With Us.html">Contact With Us</a>
       <a href="admin.html">Admin</a>
       <a href="signin.html" class="button">Sign In</a>
       <a href="signup.html" class="button">Sign Up</a>
@@ -164,14 +159,6 @@
   <div class="hero">
     <img src="Logo.jpg" alt="Budget Bazaar Logo">
     <h2>Usha & Havells Products at Best Price!</h2>
-  </div>
-
-  <!-- ✅ New Ad Section -->
-  <div class="section" style="padding-top: 0;">
-    <div class="ad-banner">
-      <h2>🎉 Special Offer: Get 10% OFF on Orders Above ₹999! 🎉</h2>
-      <p>Limited Time Only. Hurry Up!</p>
-    </div>
   </div>
 
   <div class="section">
@@ -220,7 +207,10 @@
   </div>
 
   <footer>
-    &copy; 2025 Budget Bazaar. All rights reserved.
+    <p>&copy; 2025 Budget Bazaar. All rights reserved.</p>
+    <div class="contact-buttons">
+      <a href="mailto:bazaarbudget4u@gmail.com" target="_blank" class="email">📧 Contact via Email</a>
+    </div>
   </footer>
 
 </body>
