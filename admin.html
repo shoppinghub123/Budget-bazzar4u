@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel - Budget Bazaar</title>
+  <meta charset="UTF-8" />
+  <title>Seller Admin Panel - Budget Bazaar</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -81,13 +81,15 @@
 <body>
 
 <header>
-  <h1>Admin Panel - Budget Bazaar</h1>
+  <h1>Seller Admin Panel - Budget Bazaar</h1>
 </header>
 
 <div class="container" id="loginSection">
-  <h2>Admin Login</h2>
-  <label>Enter Admin Password</label>
-  <input type="password" id="adminPassword" placeholder="••••••">
+  <h2>Seller Login</h2>
+  <label>Email</label>
+  <input type="email" id="adminEmail" placeholder="Enter Email">
+  <label>Password</label>
+  <input type="password" id="adminPassword" placeholder="Enter Password">
   <button onclick="checkAdmin()">Login</button>
 </div>
 
@@ -119,15 +121,18 @@
 </div>
 
 <script>
-  const adminPassword = "123@alokmistri";
+  const validEmail = "alokmistri69@gmail.com";
+  const validPassword = "123@alokmistri";
 
   function checkAdmin() {
-    const entered = document.getElementById("adminPassword").value;
-    if (entered === adminPassword) {
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
+
+    if (email === validEmail && password === validPassword) {
       document.getElementById("loginSection").style.display = "none";
       document.getElementById("productForm").style.display = "block";
     } else {
-      alert("Incorrect password!");
+      alert("Incorrect email or password.");
     }
   }
 
@@ -174,12 +179,11 @@
   });
 </script>
 
-</body>
-</html>
 <div style="text-align: center; margin-top: 20px;">
   <a href="manage-products.html">
-    <button style="background: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
-      Manage Products
-    </button>
+    <button style="background: #28a745;">Manage Products</button>
   </a>
 </div>
+
+</body>
+</html>
