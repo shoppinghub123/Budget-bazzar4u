@@ -64,17 +64,23 @@
       margin: 5px 0;
     }
 
-    .product-info .add-to-cart {
-      display: inline-block;
+    .product-info .buttons {
       margin-top: 20px;
+    }
+
+    .product-info .add-to-cart,
+    .product-info .buy-now {
+      display: inline-block;
       padding: 10px 20px;
+      margin-right: 10px;
       background: #2874f0;
       color: white;
       text-decoration: none;
       border-radius: 6px;
     }
 
-    .product-info .add-to-cart:hover {
+    .product-info .add-to-cart:hover,
+    .product-info .buy-now:hover {
       background: #1456c2;
     }
   </style>
@@ -117,11 +123,25 @@
             ${product.features.split('\n').map(feature => `<li>${feature}</li>`).join('')}
           </ul>
         </div>
-        <a href="#" class="add-to-cart">Add to Cart</a>
+        <div class="buttons">
+          <a href="#" class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</a>
+          <a href="checkout.html?id=${product.id}" class="buy-now">Buy Now</a>
+        </div>
       </div>
     `;
   } else {
     document.body.innerHTML = "<h2>Product not found!</h2>";
+  }
+
+  function addToCart(productId) {
+    const productsInCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const product = products.find(p => p.id === productId);
+    
+    if (product) {
+      productsInCart.push(product);
+      localStorage.setItem('cart', JSON.stringify(productsInCart));
+      alert('Product added to cart!');
+    }
   }
 </script>
 
