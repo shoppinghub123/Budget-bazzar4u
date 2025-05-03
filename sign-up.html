@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Budget Bazaar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2874f0;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2874f0;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2874f0;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1f5db8;
+    }
+    .redirect-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .redirect-link a {
+      color: #2874f0;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Sign Up - Budget Bazaar</h1>
+</header>
+
+<div class="container">
+  <h2>Create Your Account</h2>
+  <form id="signupForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="text" id="mobile" placeholder="Mobile Number" required>
+    <input type="text" id="address" placeholder="Address" required>
+    <input type="text" id="pin" placeholder="Pin Code" required>
+    <input type="email" id="gmail" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Create Password" required>
+    <button type="submit">Sign Up</button>
+  </form>
+  <div class="redirect-link">
+    <p>Already have an account? <a href="signin.html">Sign In</a></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('signupForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const mobile = document.getElementById('mobile').value;
+    const address = document.getElementById('address').value;
+    const pin = document.getElementById('pin').value;
+    const gmail = document.getElementById('gmail').value;
+    const password = document.getElementById('password').value;
+
+    const user = {
+      name,
+      mobile,
+      address,
+      pin,
+      gmail,
+      password,
+    };
+
+    // Save user to localStorage
+    localStorage.setItem('userDetails', JSON.stringify(user));
+
+    // Redirect to Sign In page
+    alert('Your account has been created successfully!');
+    window.location.href = 'signin.html';
+  });
+</script>
+
+</body>
+</html>
