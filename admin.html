@@ -153,7 +153,7 @@
     }
   });
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const price = document.getElementById('price').value;
@@ -161,7 +161,6 @@
     const features = document.getElementById('features').value;
 
     const product = {
-      id: Date.now(),
       name,
       price,
       category,
@@ -169,13 +168,27 @@
       image: base64Image,
     };
 
-    const products = JSON.parse(localStorage.getItem('products') || '[]');
-    products.push(product);
-    localStorage.setItem('products', JSON.stringify(products));
-    alert("Product added successfully!");
-    form.reset();
-    preview.innerHTML = "";
-    base64Image = "";
+    try {
+      const response = await fetch('http://localhost:5000/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(product)
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Product uploaded successfully!");
+        form.reset();
+        preview.innerHTML = "";
+        base64Image = "";
+      } else {
+        alert("Error uploading product: " + data.message);
+      }
+    } catch (error) {
+      alert("Failed to connect to server: " + error.message);
+    }
   });
 </script>
 
